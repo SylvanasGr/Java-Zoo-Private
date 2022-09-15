@@ -32,7 +32,8 @@ public class Actions implements ActionsImpl {
         System.out.println("Enter Animal Name: ");
         String name = userInput.nextLine();
         System.out.println("Enter Animal Code: ");
-        int code = userInput.nextInt();
+        //same logic apply for the fields, I will let exception handling only for the code
+        int code = rightFormatCode(userInput);
         homotaxyOptions();
         System.out.println("Enter Animal Homotaxy from the above menu: ");
         int categoryOfHomotaxy = userInput.nextInt();
@@ -47,20 +48,32 @@ public class Actions implements ActionsImpl {
         double weight = userInput.nextDouble();
         System.out.println("Enter Animal Age: ");
         int age = userInput.nextInt();
-        Animal animal = new Animal();
-        animal.setName(name);
-        animal.setCode(code);
-        animal.setHomotaxy(homotaxy);
-        animal.setWeight(weight);
-        animal.setAge(age);
-        if (listOfExistingAnimals == null) {
-            //need to initialize the variable cause will have null pointer exception
-            listOfExistingAnimals = new ArrayList<>();
-            listOfExistingAnimals.add(animal);
+
+        //check if the anima has the same code or same name animal.
+
+        assert listOfExistingAnimals != null;
+        boolean stored = isCapableForSave(listOfExistingAnimals, name, code);
+        if (stored) {
+            //create the obj for stored to our java serialization
+            Animal animal = new Animal();
+            animal.setName(name);
+            animal.setCode(code);
+            animal.setHomotaxy(homotaxy);
+            animal.setWeight(weight);
+            animal.setAge(age);
+            //for the first record need to initialize
+            if (listOfExistingAnimals == null) {
+                //need to initialize the variable cause will have null pointer exception
+                listOfExistingAnimals = new ArrayList<>();
+                listOfExistingAnimals.add(animal);
+            } else {
+                listOfExistingAnimals.add(animal);
+            }
+            writeFile(listOfExistingAnimals);
+
         } else {
-            listOfExistingAnimals.add(animal);
+            System.out.println("Record dont saved successfully,try again!");
         }
-        writeFile(listOfExistingAnimals);
 
 
     }
@@ -218,6 +231,34 @@ public class Actions implements ActionsImpl {
         System.out.println("12. For -> OMOTAXIES_PSARIWN");
 
         System.out.println("-----------------------------------------------------\n");
+    }
+
+    //checks before add a new animal if containing same name or code with the existing animal
+    private boolean isCapableForSave(ArrayList<Animal> animals, String name, int code) {
+        for (Animal animal : animals) {
+            if (animal.getName().equals(name) || animal.getCode() == code) {
+                System.out.println("You cant save a animal with the same name or code of the existing animals.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int rightFormatCode(Scanner userInput) {
+        int code = 0;
+        try {
+            code = userInput.nextInt();
+        } catch (Exception e) {
+            System.out.println("Please provide a code, not a latin character.");
+            System.out.println("Enter Animal Code: ");
+            //clear the cache  and ask the user for valid code.
+            userInput.nextLine();
+        }
+        if (code == 0) {
+            //exit from the recursion
+            return rightFormatCode(userInput);
+        }
+        return code;
     }
 
 }

@@ -1,6 +1,7 @@
 import Operations.Actions;
 
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class ZooMain {
 
@@ -35,24 +36,41 @@ public class ZooMain {
                     actions.addAnimal();
                     break;
                 case "3":
-                    System.out.println("Give me the name of the animal to look if we have it to our zoo: ");
-                    actions.searchByName(input.nextLine());
+                    try{
+                        System.out.println("Give me the name of the animal to look if we have it to our zoo: ");
+                        actions.searchByName(input.nextLine());
+                    }catch (Exception e){
+                        System.out.println("Try again something went wrong");
+                    }
                     break;
                 case "4":
-                    System.out.println("Give me the code of the animal to look if we have it to our zoo: ");
-                    actions.searchByCode(Integer.parseInt(input.nextLine()));
+                    try {
+
+                        System.out.println("Give me the code of the animal to look if we have it to our zoo: ");
+                        actions.searchByCode(Integer.parseInt(input.nextLine()));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Wrong input try again :) ...");
+                    }
                     break;
                 case "5":
-                    System.out.println("Give me the code of the animal to remove it from our zoo: ");
-                    actions.deleteAnimal(Integer.parseInt(input.nextLine()));
+                    try{
+                        System.out.println("Give me the code of the animal to remove it from our zoo: ");
+                        actions.deleteAnimal(Integer.parseInt(input.nextLine()));
+                    }catch (NumberFormatException e){
+                        System.out.println("Wrong input try again :) ...");
+                    }
                     break;
                 case "6":
-                    System.out.println("Which animal do you want to feed? Give me the name: ");
-                    String animalToFeed = input.nextLine();
-                    boolean isExisting = actions.searchByName(animalToFeed);
-                    if(isExisting){
-                        System.out.println("Give me the real quantity of the food in grams (example 125.50) to feed our little friend at the zoo!");
-                        actions.feedAnAnimal(input.nextLine(),animalToFeed);
+                    try{
+                        System.out.println("Which animal do you want to feed? Give me the name: ");
+                        String animalToFeed = input.nextLine();
+                        boolean isExisting = actions.searchByName(animalToFeed);
+                        if (isExisting) {
+                            System.out.println("Give me the real quantity of the food in grams (example 125.50) to feed our little friend at the zoo!");
+                            actions.feedAnAnimal(input.nextLine(), animalToFeed);
+                        }
+                    }catch (Exception e){
+                        System.out.println("Animal is still hungry .. maybe try again with correct data? :D !");
                     }
                     break;
                 case "7":
@@ -63,7 +81,7 @@ public class ZooMain {
                     System.out.println("This options is invalid, please try again.");
             }
         }
-            input.close();
+        input.close();
 
 
     }
