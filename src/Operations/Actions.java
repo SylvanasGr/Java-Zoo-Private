@@ -12,6 +12,7 @@ public class Actions implements ActionsImpl {
 
     private final String sepComment = " |";
 
+    //this operation show all the existing animals to our zoo.
     @Override
     public void showAllExistingAnimals() {
         ArrayList<Animal> existingAnimals = readFileAndGetAnimals();
@@ -25,6 +26,7 @@ public class Actions implements ActionsImpl {
 
     }
 
+    //this operation add an animal to our list
     @Override
     public void addAnimal() {
         ArrayList<Animal> listOfExistingAnimals = readFileAndGetAnimals();
@@ -78,6 +80,7 @@ public class Actions implements ActionsImpl {
 
     }
 
+    //this operation finds an existing animal by name
     @Override
     public boolean searchByName(String name) {
         ArrayList<Animal> existingAnimals = readFileAndGetAnimals();
@@ -92,6 +95,7 @@ public class Actions implements ActionsImpl {
         return false;
     }
 
+    //this operation finds an existing animal by code
     @Override
     public void searchByCode(int code) {
         ArrayList<Animal> existingAnimals = readFileAndGetAnimals();
@@ -110,6 +114,7 @@ public class Actions implements ActionsImpl {
 
     }
 
+    //this operation "feeds" an existing animal and adds the quantity of the food to its weight.
     @Override
     public void feedAnAnimal(String food, String animalToFeed) {
         double foodQuantity = 0;
@@ -131,6 +136,7 @@ public class Actions implements ActionsImpl {
         writeFile(animals);
     }
 
+    //this operation deletes an animal by code
     @Override
     public void deleteAnimal(int code) {
         ArrayList<Animal> animals = readFileAndGetAnimals();
@@ -148,6 +154,9 @@ public class Actions implements ActionsImpl {
 
     }
 
+    //this is a private operation for reading a file and then get a list of animals via deserialization,
+    //note that this operation could be a generic operation and living at the Utils/GenericUtils
+    // because we can re-use it for another Objects-Classes, but for this exercise is not necessary.
     private ArrayList<Animal> readFileAndGetAnimals() {
         ArrayList<Animal> animals = new ArrayList<>();
         try {
@@ -171,6 +180,9 @@ public class Actions implements ActionsImpl {
         return animals;
     }
 
+    //this is a private operation for write a file via serialization.
+    //note that this operation could be a generic operation and living at the Utils/GenericUtils
+    // because we can re-use it for another Objects-Classes, but for this exercise is not necessary.
     private void writeFile(ArrayList<Animal> animals) {
         try {
             FileOutputStream fos = new FileOutputStream("listData.txt");
@@ -183,6 +195,7 @@ public class Actions implements ActionsImpl {
         }
     }
 
+    //a private method for reduce the boilerplate code.
     private Homotaxy homotaxyMenu(int answer) {
         switch (answer) {
             case 1:
@@ -215,6 +228,8 @@ public class Actions implements ActionsImpl {
         return null;
     }
 
+    //this operation prints the options of the class Homotaxy , it can be stored in a different place,
+    //but I assume that it's only for "one-time-use".
     public void homotaxyOptions() {
         System.out.println("\n-----------------Menu--------------------------------");
         System.out.println("1. For -> AMFIBIA ");
@@ -244,6 +259,8 @@ public class Actions implements ActionsImpl {
         return true;
     }
 
+    //this is an operation checks if the given code for adding a new animal has the correct format.
+    //we can use main ways but the recursion method was a "nice-to-have" for educational proposes.
     private int rightFormatCode(Scanner userInput) {
         int code = 0;
         try {

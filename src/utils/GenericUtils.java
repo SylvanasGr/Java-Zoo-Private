@@ -1,3 +1,5 @@
+package utils;
+
 public class GenericUtils {
 
     public static void menuOptions() {
@@ -11,7 +13,4 @@ public class GenericUtils {
         System.out.println("7. Exit.");
         System.out.println("-----------------------------------------------------");
     }
-
-
-
 }

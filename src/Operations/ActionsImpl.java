@@ -1,9 +1,5 @@
 package Operations;
 
-import Entity.Animal;
-
-import java.util.ArrayList;
-
 public interface ActionsImpl {
 
     void showAllExistingAnimals();
