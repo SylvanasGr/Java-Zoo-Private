@@ -53,7 +53,6 @@ public class Actions implements ActionsImpl {
 
         //check if the anima has the same code or same name animal.
 
-        assert listOfExistingAnimals != null;
         boolean stored = isCapableForSave(listOfExistingAnimals, name, code);
         if (stored) {
             //create the obj for stored to our java serialization
@@ -250,6 +249,7 @@ public class Actions implements ActionsImpl {
 
     //checks before add a new animal if containing same name or code with the existing animal
     private boolean isCapableForSave(ArrayList<Animal> animals, String name, int code) {
+        if(animals == null) return true;
         for (Animal animal : animals) {
             if (animal.getName().equals(name) || animal.getCode() == code) {
                 System.out.println("You cant save a animal with the same name or code of the existing animals.");
